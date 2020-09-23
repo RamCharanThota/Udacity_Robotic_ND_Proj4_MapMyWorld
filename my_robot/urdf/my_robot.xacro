@@ -9,6 +9,10 @@
     <parent link="robot_footprint"/>
     <child link="chassis" />
   </joint>
+  
+  <gazebo reference="chassis">
+    <material>Gazebo/Orange</material>
+  </gazebo>
 
   <link name='chassis'>
     <pose>0 0 0.1 0 0 0</pose>
@@ -67,7 +71,10 @@
     </visual>
 
   </link>
-  
+ 
+ <gazebo reference="right_wheel">
+    <material>Gazebo/Black</material>
+  </gazebo> 
   
   
 <link name='right_wheel'>
@@ -106,6 +113,10 @@
     <limit effort="10000" velocity="1000"/>
     <dynamics damping="1.0" friction="1.0"/>
   </joint>
+  
+  <gazebo reference="left_wheel">
+    <material>Gazebo/Black</material>
+  </gazebo> 
   
   <link name='left_wheel'>
 
@@ -180,6 +191,10 @@
     <axis xyz="0 1 0" rpy="0 0 0"/>
     
   </joint>
+  
+  <gazebo reference="camera">
+    <material>Gazebo/Black</material>
+  </gazebo> 
   
   
   <link name='hokuyo'>
