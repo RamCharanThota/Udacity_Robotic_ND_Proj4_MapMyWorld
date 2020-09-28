@@ -8,11 +8,11 @@ ros::ServiceClient client;
 // This function calls the command_robot service to drive the robot in the specified direction
 void drive_robot(float lin_x, float ang_z)
 {
-    // TODO: Request a service and pass the velocities to it to drive the robot
+    
 	
 	ROS_INFO_STREAM("Moving the robot based on commands");
 
-    // Request centered joint angles [1.57, 1.57]
+   //Requesting a service and passing the velocities to it to drive the robot
    ball_chaser::DriveToTarget srv;
     srv.request.linear_x = lin_x;
     srv.request.angular_z = ang_z;
@@ -27,49 +27,61 @@ void process_image_callback(const sensor_msgs::Image img)
 {
 
     int white_pixel = 255;
-	
 	int step=img.step;// step size of the pixel
-	int height=img.height; // height or number of rows of pixel
-	int left_side_boundary=1/3*(step);// Total imagee width is divided in 3 parts,left_part is between 0 to 1/3 of stepwidth
-	int mid_way_boundary=2/3*(step);// mid part is 1/3 to 2/3 of step width 
-	int right_side_boundary =step;  //right_part is 2/3 to 1 of step width 
-	int non_white_count=0; // to count non white pixel in an image
+	int height=img.height; // height or number of rows of pixe
+    int width=img.width;// width or number of columns of pixel
+	int left_side_boundary=(width)/3;// Total imagee width is divided in 3 parts,left_part is between 0 to 1/3 of width
+	int mid_way_boundary=(2*width)/3;// mid part is 1/3 to 2/3 of  width 
+	int right_side_boundary =width;  //right_part is 2/3 to 1 of  width 
+	int num_of_Wpix_left_side=0; // used to count number of pixel on left side of image
+	int num_of_Wpix_right_side=0; //used to count number of pixel on right side of image
+	int num_of_Wpix_mid=0;// used to count number of pixel in mida way
 
     
  
 	
 	// TODO: Loop through each pixel in the image and check if there's a bright white one
-    for (int i = 0; i < height * step; i++) {
+    for (int i = 0; i < height * step; i=i+3) {
 		// Then, identify if this pixel falls in the left, mid, or right side of the image
-        if ((img.data[i] -white_pixel)==0) { // condition to identify white pixel
-			int width= i/height;// gives column index of white pixe
-			if ( width>=0  && width<left_side_boundary){ // condition to check pixel falls on left side of image
-				drive_robot(0.2,-0.1);     // Depending on the white ball position, call the drive_bot function and pass velocities to it
-
-				break;
+        if ((img.data[i] -white_pixel)==0&&(img.data[i+1] -white_pixel)==0&&(img.data[i+2] -white_pixel)==0) { // condition to identify white pixel
+			
+			int colm_ind_of_pix= (i/3)%width;// gives column index of white pixel
+			
+			if ( colm_ind_of_pix>=0  && colm_ind_of_pix<left_side_boundary){ 
+				// condition to check pixel falls on left side of image
+				num_of_Wpix_left_side=num_of_Wpix_left_side+1;    
 				
-			}else if(width>=left_side_boundary && width<mid_way_boundary){// condition to check pixel falls on left side of image
-				drive_robot(0.2,0);     // Depending on the white ball position, call the drive_bot function and pass velocities to it
+			}else if(colm_ind_of_pix>=left_side_boundary && colm_ind_of_pix<mid_way_boundary){
+				// condition to check pixel falls on left side of image
+				num_of_Wpix_right_side=num_of_Wpix_right_side+1;     
 
-				break;
 				
-			}else if(width>=mid_way_boundary && width<right_side_boundary){//Condition to check pixel falls on right side of image
-				drive_robot(0.2,0.1);     // Depending on the white ball position, call the drive_bot function and pass velocities to it
+				
+			}else if(colm_ind_of_pix>=mid_way_boundary && colm_ind_of_pix<right_side_boundary){
+				//Condition to check pixel falls on right side of image
+				num_of_Wpix_mid=num_of_Wpix_mid+1;  
 
-				break;
+				
 				
 			}
             
-        }else {// count one for each  non white pixel
-		non_white_count=non_white_count+1;
-	}
+        }
 		
-    }
+    }// end of for loop
 	
-	if (non_white_count==((height * step) -1) ){ // if all pixel in a image are non white pixel ,stop the robot
-		drive_robot(0,0);     // , call the drive_bot function and pass  zero velocities to it
-
+	if (num_of_Wpix_left_side>num_of_Wpix_right_side&&num_of_Wpix_left_side>num_of_Wpix_mid){
+		drive_robot(0.2,0.1);//drive left
+	}else if(num_of_Wpix_mid>num_of_Wpix_left_side&&num_of_Wpix_mid>num_of_Wpix_right_side){
+		drive_robot(0.2,0);// drive straight 
+	}else if(num_of_Wpix_right_side>num_of_Wpix_left_side&&num_of_Wpix_right_side>num_of_Wpix_mid){
+		drive_robot(0.2,-0.1);//drive right
+	}else{
+		drive_robot(0,0);// stop driving
 	}
+	
+	
+	
+	
 }
 
 int main(int argc, char** argv)
