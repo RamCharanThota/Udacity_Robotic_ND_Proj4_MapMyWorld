@@ -1,7 +1,6 @@
 #include "ros/ros.h"
 #include "ball_chaser/DriveToTarget.h"
 #include <sensor_msgs/Image.h>
- #include <ros/console.h>
 
 // Define a global client that can request services
 ros::ServiceClient client;
@@ -47,18 +46,18 @@ void process_image_callback(const sensor_msgs::Image img)
         if ((img.data[i] -white_pixel)==0&&(img.data[i+1] -white_pixel)==0&&(img.data[i+2] -white_pixel)==0) { // condition to identify white pixel
 			
 			int colm_ind_of_pix= (i/3)%width;// gives column index of white pixel
-                         ROS_DEBUG("index %d",colm_ind_of_pix ); 
+                         
 			
 			if ( colm_ind_of_pix>=0  && colm_ind_of_pix<left_side_boundary){ 
 				// condition to check pixel falls on mid_way of image
 				num_of_Wpix_left_side=num_of_Wpix_left_side+1;
-                                 ROS_DEBUG("num_of_Wpix_left_side %d",num_of_Wpix_left_side );        
+                                         
 				
 			}else if(colm_ind_of_pix>=left_side_boundary && colm_ind_of_pix<mid_way_boundary){
 				// condition to check pixel falls on right side of image
 				 
                                  num_of_Wpix_mid=num_of_Wpix_mid+1; 
-                                ROS_DEBUG("num_of_Wpix_mid %d",num_of_Wpix_mid );   
+                                  
     
 
 				
@@ -66,7 +65,7 @@ void process_image_callback(const sensor_msgs::Image img)
 			}else if(colm_ind_of_pix>=mid_way_boundary && colm_ind_of_pix<right_side_boundary){
 				//Condition to check pixel falls on right side of image
 				 num_of_Wpix_right_side=num_of_Wpix_right_side+1;
-                                 ROS_DEBUG("num_of_Wpix_right_side %d",num_of_Wpix_right_side );
+                          
 				
 				
 			}
