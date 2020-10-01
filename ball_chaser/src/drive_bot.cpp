@@ -11,7 +11,6 @@ ros::Publisher motor_command_publisher;
 // This function should publish the requested linear x and angular velocities to the robot wheel joints
 // After publishing the requested velocities, a message feedback should be returned with the requested wheel velocities
 
-// This callback function executes whenever a safe_move service is requested
 bool handle_drive_request (ball_chaser::DriveToTarget::Request& req,
     ball_chaser::DriveToTarget::Response& res)
 {
@@ -29,7 +28,7 @@ bool handle_drive_request (ball_chaser::DriveToTarget::Request& req,
     
 
     // Wait 3 seconds for arm to settle
-    ros::Duration(3).sleep();
+    // ros::Duration(3).sleep();
 
     // Return a response message
     res.msg_feedback = "linar_x set as : " + std::to_string((float)req.linear_x) + " , j2: " + std::to_string((float)req.angular_z);
