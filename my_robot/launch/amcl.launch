@@ -15,9 +15,25 @@
     <param name="global_frame_id" value="map"/>
 
     <!-- If you choose to define initial pose here -->
-    <param name="initial_pose_x" value="5"/>
+    <param name="initial_pose_x" value="0"/>
     <param name="initial_pose_y" value="0"/>
     <param name="initial_pose_a" value="-1.57"/>
+     
+     <!-- tuning parameters -->
+     <param name="min_particles" value="200"/>
+     <param name="max_particles" value="1000"/>
+     <param name="update_min_d" value="0.15"/>
+     <param name="update_min_a" value="pi/6.0"/>
+     <param name="laser_min_range" value="8"/>
+     <param name="laser_max_range" value="30"/>
+     <param name="laser_max_beams" value="30"/>
+    <param name="laser_z_hit" value="0.95"/>
+    <param name="laser_z_rand" value="0.05"/>
+    <param name="odom_alpha1" value="0.02"/>
+    <param name="odom_alpha2" value="0.02"/>
+    <param name="odom_alpha3" value="0.02"/>
+    <param name="odom_alpha4" value="0.02"/>
+    <param name="odom_alpha5" value="0.02"/>
 
   </node>
 
