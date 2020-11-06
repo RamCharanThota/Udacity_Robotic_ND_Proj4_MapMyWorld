@@ -14,17 +14,7 @@ The main objective of this project is to learn to utilize the _ROS AMCL(Adaptive
 
 ### Motivation
 To consolidate the robotic concepts learned in the Udacity Robotics Nanodegree and get a hands-on experience of working with _C++, ROS, Gazebo simulation enviroment_.
-
-### Structure
-
-There are two main packages within this repository
-
-#### 1.my_robot
-         my_robot package contains a mobile robot URDF file, Gazebo world, and the white ball files. 
-#### 2.ball_chaser
-        ball_chaser package contains two main ROS nodes. first one, the process_image node is responsible for identifying the white ball-
-      position in a given image. and then drive_bot node will drive the robot to follow the white ball based on the information coming from 
-      the process_image node. 
+ 
       
 ### Prerequisites and Dependencies
 
@@ -76,8 +66,8 @@ There are two main packages within this repository
      
 #### 5.Drive and Localise 
       You can control or drive  the robot two ways while it localize itself here:
-      * control through RViz by using navigation goal
-      * control through teleop package where you can drive robot using
+      *control through RViz by using navigation goal
+      *control through teleop package where you can drive robot using
       your key board. 
 #### 6.Test and Tune     
        while you drive the robot arround you will observe the AMCL node localisation in action. you can tune AMCL node parameters to improve the performace of the algorithm.   
