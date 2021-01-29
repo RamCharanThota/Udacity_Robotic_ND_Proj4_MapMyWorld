@@ -1,5 +1,5 @@
 # Udacity Robotic Software NanoDegree
-## Where Am I Project
+## Map My World
 
 ![](Map_My_world.gif)
 
